@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black String — Digital Intelligence & Tech Blog</title>
+     <!-- Google Search & Browser Logo (Favicon) -->  <link rel="icon" type="png" href="n.png">
+  <link rel="apple-touch-icon" href="n.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #05070a;
+            --card: rgba(18, 24, 43, 0.7);
+            --accent: #7c4dff;
+            --secondary: #00d4ff;
+            --text: #ffffff;
+            --muted: #a0a0c0;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        .light-mode {
+            --bg: #f8fafc;
+            --card: rgba(255, 255, 255, 0.9);
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: rgba(0, 0, 0, 0.1);
+            --glass: rgba(0, 0, 0, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; transition: 0.3s ease; }
+        
+        body { background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+        /* --- NAVIGATION BAR --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-controls { display: flex; gap: 15px; align-items: center; }
+
+        .lang-btn {
+            background: var(--accent);
+            color: white;
+            border: 1px solid var(--border);
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            background: var(--glass);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+        }
+
+        /* --- HERO SECTION --- */
+        header {
+            padding: 160px 5% 60px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 0%, rgba(124, 77, 255, 0.15), transparent 70%);
+        }
+
+        header h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; margin-bottom: 15px; letter-spacing: -1px; }
+        header p { max-width: 800px; margin: 0 auto; color: var(--muted); font-size: 1.1rem; line-height: 1.8; }
+
+        /* --- INFO CARDS --- */
+        section { padding: 60px 5%; max-width: 1400px; margin: auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+
+        .card {
+            background: var(--card);
+            padding: 40px;
+            border-radius: 28px;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 25px 50px rgba(0,0,0,0.4); }
+        .card i { font-size: 2.2rem; color: var(--secondary); margin-bottom: 10px; }
+        .card h3 { font-size: 1.6rem; font-weight: 700; color: var(--text); }
+        .card p { color: var(--muted); font-size: 1rem; line-height: 1.7; }
+        
+        .feature-list { list-style: none; margin-top: 10px; }
+        .feature-list li { margin-bottom: 8px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; color: var(--muted); }
+        .feature-list li i { font-size: 0.8rem; color: var(--accent); margin: 0; }
+
+        /* --- CHART STYLING --- */
+        .chart-box {
+            margin-top: 15px;
+            height: 100px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 15px;
+            border: 1px solid var(--border);
+        }
+        .candle { width: 10px; position: relative; border-radius: 2px; }
+        .bull { background: #22c55e; }
+        .bear { background: #ef4444; }
+        .candle::after { content: ''; position: absolute; width: 2px; height: 140%; background: inherit; left: 4px; top: -20%; opacity: 0.6; }
+
+        /* --- CUSTOM POP-UP --- */
+        #custom-popup {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--card);
+            color: var(--text);
+            padding: 15px 25px;
+            border-radius: 16px;
+            border-left: 5px solid var(--accent);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            display: none;
+            z-index: 2000;
+            animation: slideIn 0.4s ease-out;
+            backdrop-filter: blur(20px);
+        }
+
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        footer { text-align: center; padding: 80px 5%; border-top: 1px solid var(--border); margin-top: 50px; }
+        .social-icons { margin-bottom: 25px; }
+        .social-icons i { font-size: 1.6rem; margin: 0 15px; cursor: pointer; color: var(--muted); transition: 0.3s; }
+        .social-icons i:hover { color: var(--accent); transform: scale(1.2); }
+
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo"><strong>BLACK STRING</strong></div>
+    <div class="nav-controls">
+        <select class="lang-btn" id="langSwitcher" onchange="switchLanguage()">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="hi">हिन्दी</option>
+        </select>
+        <div class="theme-toggle" onclick="toggleTheme()">
+            <i class="fa-solid fa-moon"></i>
+        </div>
+    </div>
+</nav>
+
+<header>
+    <h1 id="mainTitle">Black String Intelligence</h1>
+    <p id="mainDesc">A comprehensive digital archive and strategy hub for the next generation of online businesses. We explore the intersection of AI automation, game economy, and high-frequency market analysis.</p>
+</header>
+
+<section>
+    <div class="grid">
+        <div class="card">
+            <i class="fa-solid fa-money-bill-trend-up"></i>
+            <h3>Monetization & Ad Systems</h3>
+            <p>We analyze and develop sophisticated ad-integration models for mobile applications. Our research focuses on eCPM optimization and high-engagement ad formats that respect user experience while maximizing developer revenue.</p>
+            <ul class="feature-list">
+                <li><i class="fa-solid fa-check"></i> Tier-1 Country Targeting Strategies</li>
+                <li><i class="fa-solid fa-check"></i> Mediation Waterfall Optimization</li>
+                <li><i class="fa-solid fa-check"></i> Reward-based Ad Economy Design</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-chess-knight"></i>
+            <h3>Strategic Game Development</h3>
+            <p>Black String builds more than just games; we build ecosystems. Our focus is on 2D puzzle and competitive platforms that integrate "Play-to-Learn" and "Play-to-Earn" mechanics using secure backend infrastructures.</p>
+            <ul class="feature-list">
+                <li><i class="fa-solid fa-check"></i> Unity & Godot Engineering</li>
+                <li><i class="fa-solid fa-check"></i> Real-time Multiplayer Logic</li>
+                <li><i class="fa-solid fa-check"></i> Anti-Cheat & Secure Wallet Integration</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-chart-line"></i>
+            <h3>Technical Market Analysis</h3>
+            <p>Understanding price action is key to digital business. We provide deep dives into candlestick pattern recognition, specifically focusing on trend reversal signals and algorithmic trading indicators for 2026 markets.</p>
+            <div class="chart-box">
+                <div class="candle bull" style="height: 40%;"></div>
+                <div class="candle bear" style="height: 30%;"></div>
+                <div class="candle bull" style="height: 75%;"></div>
+                <div class="candle bull" style="height: 90%;"></div>
+                <div class="candle bear" style="height: 50%;"></div>
+                <div class="candle bull" style="height: 85%;"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-laptop-code"></i>
+            <h3>Learning & Mastery Apps</h3>
+            <p>Our educational wing focuses on creating interactive apps that teach high-ticket skills.
+            this is the anxro-database These platforms use AI to adapt the curriculum based on the user's progress in coding, marketing, or management.</p>
+            <ul class="feature-list">
+                <li><i class="fa-solid fa-check"></i> Adaptive AI Learning Paths</li>
+                <li><i class="fa-solid fa-check"></i> Skill-based Certification Systems</li>
+                <li><i class="fa-solid fa-check"></i> Gamified Business Simulations</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-microchip"></i>
+            <h3>AI-Driven Automation</h3>
+            <p>We leverage Large Language Models (LLMs) to automate content creation and business operations. Black String develops custom "agents" that handle customer support and data analysis autonomously.</p>
+            <ul class="feature-list">
+                <li><i class="fa-solid fa-check"></i> Custom Workflow Automation</li>
+                <li><i class="fa-solid fa-check"></i> AI Content Strategy Guides</li>
+                <li><i class="fa-solid fa-check"></i> Data-driven Scaling Frameworks</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <i class="fa-solid fa-rocket"></i>
+            <h3>Digital Brand Scaling</h3>
+            <p>From zero to global presence. We document the journey of building digital brands through organic growth, viral marketing mechanics, and strategic community building on platforms like Telegram and X.</p>
+        </div>
+    </div>
+</section>
+
+<div id="custom-popup">
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <i class="fa-solid fa-circle-info" style="color: var(--accent);"></i>
+        <span id="popupText">Preference Updated</span>
+    </div>
+</div>
+
+<footer>
+    <div class="social-icons">
+        <i class="fa-brands fa-instagram"></i>
+        <i class="fa-brands fa-x-twitter"></i>
+        <i class="fa-brands fa-telegram"></i>
+        <i class="fa-brands fa-github"></i>
+    </div>
+    <p>© 2026 <strong>Black String</strong>. The Nexus of Digital Innovation.</p>
+</footer>
+
+<script>
+    // Language Logic
+    const texts = {
+        en: { title: "Black String Intelligence", desc: "A comprehensive digital archive and strategy hub for the next generation of online businesses." },
+        es: { title: "Inteligencia Black String", desc: "Un archivo digital completo y un centro de estrategia para la próxima generación de negocios en línea." },
+        hi: { title: "ब्लैक स्ट्रिंग इंटेलिजेंस", desc: "ऑनलाइन व्यवसायों की अगली पीढ़ी के लिए एक व्यापक डिजिटल संग्रह और रणनीति केंद्र।" }
+    };
+
+    function switchLanguage() {
+        const lang = document.getElementById('langSwitcher').value;
+        document.getElementById('mainTitle').innerText = texts[lang].title;
+        document.getElementById('mainDesc').innerText = texts[lang].desc;
+        showPopup(`Language: ${lang.toUpperCase()}`);
+    }
+
+    // Theme Toggle Logic
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        const icon = document.querySelector('.theme-toggle i');
+        if(document.body.classList.contains('light-mode')) {
+            icon.className = 'fa-solid fa-sun';
+            showPopup('Light Mode Enabled');
+        } else {
+            icon.className = 'fa-solid fa-moon';
+            showPopup('Dark Mode Enabled');
+        }
+    }
+
+    // Custom Pop-up logic
+    function showPopup(msg) {
+        const popup = document.getElementById('custom-popup');
+        document.getElementById('popupText').innerText = msg;
+        popup.style.display = 'block';
+        setTimeout(() => { popup.style.display = 'none'; }, 2500);
+    }
+</script>
+
+</body>
+</html>
